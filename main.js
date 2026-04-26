@@ -46,6 +46,12 @@ function cell() {
     };
 }
 
+/* 
+The game controller is responsible for managing the game state, including the players, the game board, and the game logic. 
+It handles player turns, checks for wins or draws, and updates the game state accordingly. 
+The screen controller will interact with the game controller to update the user interface based on the current game state.
+additional function for customizing player names and symbols could be added if needed be.
+*/
 function gameController(
     playerOneName = 'Player 1',
     playerTwoName = 'Player 2',
@@ -94,13 +100,14 @@ function gameController(
     const makeMove = (row, column) => {
         if (gameOver) return { status: 'over' };
 
-    const cell = board.getBoard()[row][column];
-    if (cell.getValue() !== '') {
-        return { status: 'taken' };
-    }
+        const cell = board.getBoard()[row][column];
+        if (cell.getValue() !== '') {
+            return { status: 'taken' };
+        }
 
         board.setCell(row, column, getCurrentPlayer().symbol);
 
+        // Check for winner or draw after the move
         const winner = checkWinner();
         if (winner) {
             console.log(`${getCurrentPlayer().name} wins!`);
